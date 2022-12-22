@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
+import { Component, OnInit, Inject } from "@angular/core";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "./auth.service";
+import { Router } from "@angular/router";
+import { Toastr, TOASTR_TOKEN } from "../shared/toaster.service";
 @Component({
-  templateUrl: './profile.component.html',
+  templateUrl: "./profile.component.html",
   styles: [
     `
       em {
@@ -34,11 +35,15 @@ export class ProfileComponent implements OnInit {
   firstName!: FormControl;
   lastName!: FormControl;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    @Inject(TOASTR_TOKEN) private toastr: Toastr
+  ) {}
   ngOnInit(): void {
     this.firstName = new FormControl(this.authService.currentUser.firstName, [
       Validators.required,
-      Validators.pattern('[a-zA-Z].*'),
+      Validators.pattern("[a-zA-Z].*"),
     ]);
     this.lastName = new FormControl(
       this.authService.currentUser.lastName,
@@ -59,7 +64,7 @@ export class ProfileComponent implements OnInit {
   }
 
   Cancel() {
-    this.router.navigate(['events']);
+    this.router.navigate(["events"]);
   }
 
   saveValues(formValues: any) {
@@ -68,7 +73,7 @@ export class ProfileComponent implements OnInit {
         formValues.firstName,
         formValues.lastName
       );
-      this.router.navigate(['events']);
+      this.toastr.success("Profile Saved");
     }
   }
 }
