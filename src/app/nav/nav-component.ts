@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { AuthService } from '../user/auth.service';
+import { Component } from "@angular/core";
+import { AuthService } from "../user/auth.service";
+import { EventService, ISession } from "../events";
 @Component({
-  selector: 'nav-bar',
-  templateUrl: './nav-bar.component.html',
+  selector: "nav-bar",
+  templateUrl: "./nav-bar.component.html",
   styles: [
     `
       .nav.navbar-nav {
@@ -25,5 +26,17 @@ import { AuthService } from '../user/auth.service';
   ],
 })
 export class NavBar {
-  constructor(public authService: AuthService) {}
+  searchValue: string = "";
+  foundSession: ISession[] | any;
+  constructor(
+    public authService: AuthService,
+    private eventService: EventService
+  ) {}
+
+  searchTerm(searchValue: any) {
+    this.eventService.searchSession(searchValue).subscribe((sessions) => {
+      this.foundSession = sessions;
+      console.log(this.foundSession);
+    });
+  }
 }
