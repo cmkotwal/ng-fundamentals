@@ -13,6 +13,9 @@ import {
   CreateSession,
   SessionListComponent,
   DurationPipe,
+  UpVoteComponent,
+  VoterService,
+  LocationValidator,
 } from "./events/index";
 
 import {
@@ -47,6 +50,8 @@ let jQuery;
     DurationPipe,
     SimpleModal,
     ModalTriggerDirective,
+    UpVoteComponent,
+    LocationValidator,
   ],
   imports: [
     BrowserModule,
@@ -58,6 +63,7 @@ let jQuery;
     EventService,
     { provide: TOASTR_TOKEN, useValue: toastr },
     { provide: JQ_TOKEN, useValue: jQuery },
+    VoterService,
     EventRouteActivator,
     EventListResolver,
     AuthService,
